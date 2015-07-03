@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A77F72CC-C83F-4EAB-BC7F-4A22934A7603}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kerosene.ORM.Maps.Lazy.Tests</RootNamespace>
+    <AssemblyName>Kerosene.ORM.Maps.Lazy.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Domain\Country.cs" />
+    <Compile Include="Domain\Employee.cs" />
+    <Compile Include="Domain\EmployeeTalent.cs" />
+    <Compile Include="Domain\Region.cs" />
+    <Compile Include="Domain\Talent.cs" />
+    <Compile Include="Maps\CountryMap.cs" />
+    <Compile Include="Maps\EmployeeMap.cs" />
+    <Compile Include="Maps\EmployeeTalentMap.cs" />
+    <Compile Include="Maps\RegionMap.cs" />
+    <Compile Include="Maps\TalentMap.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\Repo.cs" />
+    <Compile Include="Tests\Test_BaseServices.cs" />
+    <Compile Include="Tests\Test_DeleteCommand.cs" />
+    <Compile Include="Tests\Test_InsertCommand.cs" />
+    <Compile Include="Tests\Test_QueryCommand.cs" />
+    <Compile Include="Tests\Test_UpdateCommand.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\1_Code\Kerosene.ORM.SqlServer\Kerosene.ORM.SqlServer.csproj">
+      <Project>{4f186194-1e9b-4019-9cfe-6c31be9e8a8a}</Project>
+      <Name>Kerosene.ORM.SqlServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\1_Code\Kerosene.ORM\Kerosene.ORM.csproj">
+      <Project>{32c0e054-03be-402b-be9f-a51a7a0b0ac9}</Project>
+      <Name>Kerosene.ORM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\1_Code\Kerosene.Tools.Launcher\Kerosene.Tools.Launcher.csproj">
+      <Project>{a6e2be5f-a7fb-4182-bd12-0786444b9e71}</Project>
+      <Name>Kerosene.Tools.Launcher</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\1_Code\Kerosene.Tools\Kerosene.Tools.csproj">
+      <Project>{4cfe9465-0116-4a02-8cff-ca1f83fe200a}</Project>
+      <Name>Kerosene.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kerosene.ORM.ExampleDB\Kerosene.ORM.ExampleDB.csproj">
+      <Project>{ce3cca08-a5ad-4b39-90d4-3946e252a77e}</Project>
+      <Name>Kerosene.ORM.ExampleDB</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
