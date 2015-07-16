@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Kerosene.ORM.ExampleDB
+namespace Kerosene.ORM.DataDB
 {
 	// ==================================================== 
 	/// <summary>

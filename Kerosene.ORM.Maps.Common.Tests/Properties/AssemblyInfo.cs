@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Moises Barba Cebeira")]
 [assembly: AssemblyProduct("Kerosene.ORM.Maps.Common.Tests")]
-[assembly: AssemblyCopyright("Copyright ©  Moises Barba Cebeira 2008-2015")]
+[assembly: AssemblyCopyright("Copyright © Moises Barba Cebeira 2008-2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7900c512-75f7-41af-94ad-20ccfb2a7abe")]
+[assembly: Guid("6f519b29-fa15-41b2-b658-f406d49afba8")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("7.4.0")]
-[assembly: AssemblyFileVersion("7.4.0")]
+[assembly: AssemblyVersion("7.4.1")]
+[assembly: AssemblyFileVersion("7.4.1")]

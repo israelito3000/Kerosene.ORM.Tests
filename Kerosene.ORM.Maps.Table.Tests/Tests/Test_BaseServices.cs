@@ -1,31 +1,38 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Kerosene.ORM.DataDB;
 using Kerosene.ORM.Maps;
 using Kerosene.Tools;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using Kerosene.ORM.DataDB;
 
-namespace Kerosene.ORM.Maps.Eager.Tests
+namespace Kerosene.ORM.Maps.Table.Tests
 {
 	// ==================================================== 
 	[TestClass]
 	public class Test_BaseServices
 	{
-		[OnlyThisTest]
+		//[OnlyThisTest]
 		[TestMethod]
-		public void New_Repo_Creates_Its_Maps()
+		public void Register_Maps()
 		{
 			using (var repo = Repo.Create())
 			{
-				ConsoleEx.WriteLine("\n> Repo: {0}", repo.ToConsoleString());
-				Assert.AreEqual(5, repo.Maps.Count());
-				var reg = repo.Maps.FirstOrDefault(x => x.EntityType == typeof(Region)); Assert.IsNotNull(reg); Assert.IsFalse(reg.IsValidated);
-				var ctry = repo.Maps.FirstOrDefault(x => x.EntityType == typeof(Country)); Assert.IsNotNull(ctry); Assert.IsFalse(ctry.IsValidated);
-				var emp = repo.Maps.FirstOrDefault(x => x.EntityType == typeof(Employee)); Assert.IsNotNull(emp); Assert.IsFalse(emp.IsValidated);
-				var tal = repo.Maps.FirstOrDefault(x => x.EntityType == typeof(Talent)); Assert.IsNotNull(tal); Assert.IsFalse(tal.IsValidated);
-				var emptal = repo.Maps.FirstOrDefault(x => x.EntityType == typeof(EmployeeTalent)); Assert.IsNotNull(emptal); Assert.IsFalse(emptal.IsValidated);
+				ConsoleEx.WriteLine("\n> Not Initialized: {0}", repo.ToConsoleString());
 
-				ConsoleEx.ReadLine("\n--- Press [Enter] to validate...");
+				ConsoleEx.ReadLine("\n--- Press [Enter] to retrieve maps...");
+				var reg = repo.LocateMap<Region>(); Assert.IsNotNull(reg);
+				var ctry = repo.LocateMap<Country>(); Assert.IsNotNull(ctry);
+				var emp = repo.LocateMap<Employee>(); Assert.IsNotNull(emp);
+				var talent = repo.LocateMap<Talent>(); Assert.IsNotNull(talent);
+				var emptalent = repo.LocateMap<EmployeeTalent>(); Assert.IsNotNull(emptalent);
+
+				var count = repo.Maps.Count(); Assert.AreEqual(5, count);
+				ConsoleEx.WriteLine("\n> Initialized: {0}", repo.ToConsoleString());
+
+				ConsoleEx.ReadLine("\n--- Press [Enter] to validate maps...");
 				foreach (var map in repo.Maps) map.Validate();
 				ConsoleEx.WriteLine("\n> Validated: {0}", repo.ToConsoleString());
 			}
@@ -79,9 +86,7 @@ namespace Kerosene.ORM.Maps.Eager.Tests
 		[TestMethod]
 		public void Attach_Duplicate_And_Detach()
 		{
-			DB.Prepare();
-
-			using (var repo = Repo.Create())
+			DB.Prepare(); using (var repo = Repo.Create())
 			{
 				var id = DB.Regions[0].Id;
 				var reg = repo.Where<Region>(x => x.Id == id).First(); Assert.IsNotNull(reg);
@@ -90,12 +95,13 @@ namespace Kerosene.ORM.Maps.Eager.Tests
 				repo.Attach(obj);
 
 				var list = repo.Entities.ToList();
-				var metaReg = MetaEntity.Locate(reg); Assert.IsTrue(list.Contains(reg)); Assert.IsNotNull(metaReg.Map);
-				var metaObj = MetaEntity.Locate(obj); Assert.IsTrue(list.Contains(obj)); Assert.IsNotNull(metaObj.Map);
+				Assert.IsTrue(list.Contains(reg)); var metaReg = MetaEntity.Locate(reg); Assert.IsNotNull(metaReg.Map);
+				Assert.IsTrue(list.Contains(obj)); var metaObj = MetaEntity.Locate(obj); Assert.IsNotNull(metaObj.Map);
 
 				repo.Detach(obj);
 				list = repo.Entities.ToList();
-				Assert.IsFalse(list.Contains(obj)); Assert.IsNull(metaObj.Map);
+				Assert.IsFalse(list.Contains(metaObj));
+				Assert.IsNull(metaObj.Map);
 			}
 		}
 	}

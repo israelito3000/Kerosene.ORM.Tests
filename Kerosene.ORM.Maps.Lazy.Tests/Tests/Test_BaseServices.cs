@@ -3,7 +3,7 @@ using Kerosene.ORM.Maps;
 using Kerosene.Tools;
 using System;
 using System.Linq;
-using Kerosene.ORM.ExampleDB;
+using Kerosene.ORM.DataDB;
 
 namespace Kerosene.ORM.Maps.Lazy.Tests
 {

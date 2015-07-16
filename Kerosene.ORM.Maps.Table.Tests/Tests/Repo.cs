@@ -2,10 +2,9 @@
 using Kerosene.ORM.Maps;
 using Kerosene.Tools;
 using System;
-using System.Linq;
 using System.Text;
 
-namespace Kerosene.ORM.Maps.Lazy.Tests
+namespace Kerosene.ORM.Maps.Table.Tests
 {
 	// ==================================================== 
 	/// <summary>
@@ -19,13 +18,6 @@ namespace Kerosene.ORM.Maps.Lazy.Tests
 		public static IDataRepository Create()
 		{
 			var repo = DataRepository.Create(DB.Link);
-
-			new RegionMap(repo);
-			new CountryMap(repo);
-			new EmployeeMap(repo);
-			new TalentMap(repo);
-			new EmployeeTalentMap(repo);
-
 			return repo;
 		}
 

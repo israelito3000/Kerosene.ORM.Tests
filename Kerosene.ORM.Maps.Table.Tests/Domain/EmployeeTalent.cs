@@ -3,14 +3,17 @@ using System;
 using System.Linq;
 using System.Text;
 
-namespace Kerosene.ORM.ExampleDB
+namespace Kerosene.ORM.Maps.Table.Tests
 {
 	// ==================================================== 
 	public class EmployeeTalent
 	{
-		public string EmployeeId { get; set; }
-		public string TalentId { get; set; }
-		public object RowVersion { get; set; }
+		string _EmployeeId = null;
+		string _TalentId = null;
+
+		object RowVersion = null;
+		public string EmployeeId { get { return _EmployeeId; } set { _EmployeeId = value; } }
+		public string TalentId { get { return _TalentId; } set { _TalentId = value; } }
 
 		public override string ToString()
 		{

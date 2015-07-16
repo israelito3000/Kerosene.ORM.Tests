@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Kerosene.ORM.ExampleDB;
+using Kerosene.ORM.DataDB;
 using Kerosene.ORM.Maps;
 using Kerosene.Tools;
 using System;
@@ -25,7 +25,7 @@ namespace Kerosene.ORM.Maps.Eager.Tests
 				ConsoleEx.ReadLine("\n--- Press [Enter] to print results...");
 				foreach (var obj in list) ConsoleEx.WriteLine("\n> {0}", obj);
 
-				int count = ExampleDB.DB.Employees.Count;
+				int count = DataDB.DB.Employees.Count;
 				Assert.AreEqual(count, list.Count);
 			}
 		}
@@ -167,7 +167,7 @@ namespace Kerosene.ORM.Maps.Eager.Tests
 				ConsoleEx.ReadLine("\n--- Press [Enter] to print results...");
 				foreach (var obj in list) ConsoleEx.WriteLine("\n> {0}", obj);
 
-				var count = ExampleDB.DB.EmployeeTalents.Count(x => x.TalentId == id);
+				var count = DataDB.DB.EmployeeTalents.Count(x => x.TalentId == id);
 				Assert.AreEqual(count, list.Count);
 			}
 		}

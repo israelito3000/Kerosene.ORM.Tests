@@ -1,4 +1,4 @@
-﻿using Kerosene.ORM.ExampleDB;
+﻿using Kerosene.ORM.DataDB;
 using Kerosene.Tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -449,7 +449,7 @@ namespace Kerosene.ORM.Direct.Tests
 			Func<Core.IRecord, object> converter = rec =>
 			{
 				dynamic row = rec;
-				ExampleDB.Region reg = new ExampleDB.Region();
+				DataDB.Region reg = new DataDB.Region();
 
 				reg.Id = row.Id;
 				reg.Name = (string)rec["Name"];
@@ -469,12 +469,12 @@ namespace Kerosene.ORM.Direct.Tests
 			var cmdCtry = DB.Link.From(x => x.Countries.As(x.Ctry));
 			ConsoleEx.WriteLine("\n> Command: {0}", cmdCtry);
 
-			foreach (ExampleDB.Country ctry in cmdCtry.ConvertBy(recCtry =>
+			foreach (DataDB.Country ctry in cmdCtry.ConvertBy(recCtry =>
 			{
 				ConsoleEx.WriteLine("\n- Country: {0}", recCtry);
 
 				dynamic dinCtry = recCtry;
-				ExampleDB.Country objCtry = new ExampleDB.Country();
+				DataDB.Country objCtry = new DataDB.Country();
 				objCtry.Id = dinCtry.Id;
 				objCtry.Name = dinCtry.Name;
 				objCtry.RegionId = dinCtry.RegionId;
@@ -482,12 +482,12 @@ namespace Kerosene.ORM.Direct.Tests
 				var cmdEmp = DB.Link.From(x => x.Employees).Where(x => x.CountryId == objCtry.Id);
 				ConsoleEx.WriteLine("\n\t> SubCommand: {0}", cmdEmp);
 
-				foreach (ExampleDB.Employee emp in cmdEmp.ConvertBy(recEmp =>
+				foreach (DataDB.Employee emp in cmdEmp.ConvertBy(recEmp =>
 				{
 					ConsoleEx.WriteLine("\n\t\t- Employee: {0}", recEmp);
 
 					dynamic dinEmp = recEmp;
-					ExampleDB.Employee objEmp = new ExampleDB.Employee();
+					DataDB.Employee objEmp = new DataDB.Employee();
 					objEmp.Id = dinEmp.Id; objEmp.BirthDate = dinEmp.BirthDate;
 					objEmp.FirstName = dinEmp.FirstName; objEmp.LastName = dinEmp.LastName;
 					objEmp.ManagerId = dinEmp.ManagerId; objEmp.CountryId = dinEmp.CountryId;

@@ -3,22 +3,20 @@ using System;
 using System.Linq;
 using System.Text;
 
-namespace Kerosene.ORM.ExampleDB
+namespace Kerosene.ORM.DataDB
 {
 	// ==================================================== 
-	public class Country
+	public class Talent
 	{
 		public string Id { get; set; }
-		public string Name { get; set; }
-		public string RegionId { get; set; }
+		public string Description { get; set; }
 		public object RowVersion { get; set; }
 
 		public override string ToString()
 		{
 			StringBuilder sb = new StringBuilder("{");
 			sb.AppendFormat("Id={0}", Id ?? string.Empty);
-			if (Name != null) sb.AppendFormat(", Name={0}", Name);
-			if (RegionId != null) sb.AppendFormat(", RegionId={0}", RegionId);
+			if (Description != null) sb.AppendFormat(", Description={0}", Description);
 			if (RowVersion != null) sb.AppendFormat(", RowVersion={0}", RowVersion.Sketch());
 			sb.Append("}"); return sb.ToString();
 		}

@@ -1,11 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Kerosene.ORM.DataDB;
+﻿using Kerosene.ORM.DataDB;
 using Kerosene.ORM.Maps;
 using Kerosene.Tools;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
-namespace Kerosene.ORM.Maps.Lazy.Tests
+namespace Kerosene.ORM.Maps.Table.Tests
 {
 	// ==================================================== 
 	[TestClass]
@@ -32,18 +35,15 @@ namespace Kerosene.ORM.Maps.Lazy.Tests
 
 		//[OnlyThisTest]
 		[TestMethod]
-		public void Find_From_Cache_Clean()
+		public void Find_Root_Employee_From_Cache_Clean()
 		{
 			DB.Prepare();
 
 			using (var repo = Repo.Create())
 			{
-				var id = DB.Employees[0].Id;
-				var obj = repo.FindNow<Employee>(x => x.Id == id);
-
-				ConsoleEx.WriteLine("\n> Source: {0}", obj);
+				var obj = repo.FindNow<Employee>(x => x.ManagerId == null);
+				ConsoleEx.WriteLine("\n> {0}", obj);
 				Assert.IsNotNull(obj);
-				Assert.IsNotNull(MetaEntity.Locate(obj).Map);
 			}
 		}
 
@@ -56,40 +56,34 @@ namespace Kerosene.ORM.Maps.Lazy.Tests
 			using (var repo = Repo.Create())
 			{
 				var id = DB.Employees[0].Id;
-				var obj = repo.Where<Employee>(x => x.Id == id).First();
-				ConsoleEx.WriteLine("\n> Source: {0}", obj);
+
+				ConsoleEx.WriteLine("\n\n- Populating cache...");
+				var list = repo.Query<Employee>().ToList(); Assert.AreEqual(DB.Employees.Count, list.Count);
+				var root = list.FirstOrDefault(x => x.Id == id); Assert.IsNotNull(root);
+
+				ConsoleEx.WriteLine("\n\n- Finding from cache... {0}", id);
+				var obj = repo.FindNow<Employee>(x => x.Id == id);
+				ConsoleEx.WriteLine("\n> {0}", obj);
 				Assert.IsNotNull(obj);
-
-				var temp = repo.FindNow<Employee>(x => x.Id == id);
-				ConsoleEx.WriteLine("\n> Refreshed: {0}", obj);
-				Assert.IsNotNull(temp);
-
-				bool r = object.ReferenceEquals(obj, temp);
-				ConsoleEx.WriteLine("\n> Are the same reference: {0}", r);
-				Assert.IsTrue(r);
+				Assert.IsTrue(object.ReferenceEquals(root, obj));
 			}
 		}
 
-		//[OnlyThisTest]
-		[TestMethod]
+		[OnlyThisTest]
+		//[TestMethod]
 		public void Find_Employee_No_Id_Cache_Populated()
 		{
 			DB.Prepare();
 
 			using (var repo = Repo.Create())
 			{
-				var id = DB.Employees[0].Id;
-				var obj = repo.Where<Employee>(x => x.Id == id).First();
-				ConsoleEx.WriteLine("\n> Source: {0}", obj);
+				ConsoleEx.WriteLine("\n\n- Populating cache...");
+				var list = repo.Query<Employee>().ToList(); Assert.AreEqual(DB.Employees.Count, list.Count);
+
+				var lastName = DB.Employees[DB.Employees.Count - 1].LastName;
+				var obj = repo.FindNow<Employee>(x => x.LastName == lastName);
+				ConsoleEx.WriteLine("\n> {0}", obj);
 				Assert.IsNotNull(obj);
-
-				var temp = repo.FindNow<Employee>(x => x.FirstName == obj.Name.First); // Using 'FirstName' as it is the column name
-				ConsoleEx.WriteLine("\n> Refreshed: {0}", obj);
-				Assert.IsNotNull(temp);
-
-				bool r = object.ReferenceEquals(obj, temp);
-				ConsoleEx.WriteLine("\n> Are the same reference: {0}", r);
-				Assert.IsTrue(r);
 			}
 		}
 
@@ -105,13 +99,12 @@ namespace Kerosene.ORM.Maps.Lazy.Tests
 				var obj = new Employee() { Id = id };
 				var temp = repo.RefreshNow(obj);
 
-				ConsoleEx.WriteLine("\n> Source: {0}", obj);
-				ConsoleEx.WriteLine("\n> Refreshed: {0}", temp);
-				ConsoleEx.WriteLine("\n> Are the same reference: {0}", object.ReferenceEquals(obj, temp));
+				var metaObj = MetaEntity.Locate(obj); ConsoleEx.WriteLine("\n> Implicit: {0}", metaObj);
+				var metaTemp = MetaEntity.Locate(temp); ConsoleEx.WriteLine("\n> Returned: {0}", metaTemp);
 
 				Assert.IsNotNull(temp);
-				Assert.IsNotNull(MetaEntity.Locate(temp).Map);
-				Assert.IsNotNull(MetaEntity.Locate(obj).Map);
+				Assert.IsNotNull(metaTemp.Map);
+				Assert.IsNotNull(metaObj.Map);
 			}
 		}
 
@@ -124,17 +117,25 @@ namespace Kerosene.ORM.Maps.Lazy.Tests
 			using (var repo = Repo.Create())
 			{
 				var id = DB.Employees[0].Id;
-				var obj = repo.Where<Employee>(x => x.Id == id).First();
-				ConsoleEx.WriteLine("\n> Source: {0}", obj);
-				Assert.IsNotNull(obj);
 
+				ConsoleEx.WriteLine("\n\n- Populating cache...");
+				var list = repo.Query<Employee>().ToList(); Assert.AreEqual(DB.Employees.Count, list.Count);
+				var root = list.FirstOrDefault(x => x.Id == id); Assert.IsNotNull(root);
+
+				ConsoleEx.WriteLine("\n\n- Refreshing a new instance...");
+				var obj = new Employee() { Id = id };
 				var temp = repo.RefreshNow(obj);
-				ConsoleEx.WriteLine("\n> Refreshed: {0}", obj);
-				Assert.IsNotNull(temp);
 
-				bool r = object.ReferenceEquals(obj, temp);
-				ConsoleEx.WriteLine("\n> Are the same reference: {0}", r);
-				Assert.IsTrue(r);
+				var metaObj = MetaEntity.Locate(obj); ConsoleEx.WriteLine("\n> Implicit: {0}", metaObj);
+				var metaTemp = MetaEntity.Locate(temp); ConsoleEx.WriteLine("\n> Returned: {0}", metaTemp);
+
+				Assert.IsNotNull(temp);
+				Assert.IsNotNull(metaTemp.Map);
+				Assert.IsNotNull(metaObj.Map);
+
+				// Validanting the new one is also refreshed...
+				Assert.AreEqual(root.FirstName, obj.FirstName);
+				Assert.AreEqual(root.LastName, obj.LastName);
 			}
 		}
 

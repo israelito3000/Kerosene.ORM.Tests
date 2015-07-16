@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Text;
 
-namespace Kerosene.ORM.ExampleDB
+namespace Kerosene.ORM.DataDB
 {
 	// ==================================================== 
 	public class Employee

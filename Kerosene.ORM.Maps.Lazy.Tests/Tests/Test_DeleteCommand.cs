@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Kerosene.ORM.ExampleDB;
+using Kerosene.ORM.DataDB;
 using Kerosene.ORM.Maps;
 using Kerosene.Tools;
 using System;
