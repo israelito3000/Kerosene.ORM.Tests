@@ -60,11 +60,11 @@
     <Content Include="Scripts\4- Initializa Table Contents.sql" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\1_Code\Kerosene.ORM\Kerosene.ORM.csproj">
+    <ProjectReference Include="..\..\Kerosene.ORM\Code\Kerosene.ORM.csproj">
       <Project>{52ea74f3-aa39-45d5-987f-cc147e00da3b}</Project>
       <Name>Kerosene.ORM</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\1_Code\Kerosene.Tools\Kerosene.Tools.csproj">
+    <ProjectReference Include="..\..\Kerosene.Tools\Code\Kerosene.Tools.csproj">
       <Project>{787a5c57-9e18-4186-90d6-6c7e66b53a64}</Project>
       <Name>Kerosene.Tools</Name>
     </ProjectReference>
